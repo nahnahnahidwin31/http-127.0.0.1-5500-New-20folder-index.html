@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim Training Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: purple;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .target {
+            position: absolute;
+            width: 50px; /* Circle diameter */
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: auto; /* Allows clicks on the circle */
+        }
+    </style>
+</head>
+<body>
+    <div class="target"></div>
+    <audio id="clickSound" src="mouse-click-117076.mp3" preload="auto"></audio>
+
+    <script>
+        const target = document.querySelector('.target');
+        const clickSound = document.getElementById('clickSound');
+
+        function moveTarget() {
+            // Generate random x and y positions
+            const x = Math.random() * (window.innerWidth - 50);
+            const y = Math.random() * (window.innerHeight - 50);
+            target.style.left = `${x}px`;
+            target.style.top = `${y}px`;
+        }
+
+        target.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent the click from bubbling up
+            clickSound.currentTime = 0; // Reset sound to start
+            clickSound.play(); // Play sound when the target is clicked
+            moveTarget(); // Move the target when clicked
+        });
+
+        document.addEventListener('click', () => {
+            clickSound.currentTime = 0; // Reset sound to start
+            clickSound.play(); // Play sound when anywhere is clicked
+        });
+
+        // Initial placement of the target
+        moveTarget();
+    </script>
+</body>
+</html>
